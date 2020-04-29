@@ -17,6 +17,12 @@ class ChatConsumer(WebsocketConsumer):
 
         self.accept()
 
+        async_to_sync(self.channel_layer.send)(self.channel_name, {
+                'type': 'chat_message',
+                'message': '# ws connection established'
+            }
+        )
+
     def disconnect(self, close_code):
         # Leave room group
         async_to_sync(self.channel_layer.group_discard)(
